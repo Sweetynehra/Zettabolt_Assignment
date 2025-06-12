@@ -92,7 +92,7 @@ You can use `g++` or a `Makefile`. Example:
 g++ -std=c++17 -O2 -pthread main/index.cpp main/cliconfig_parser.cpp main/data_loader.cpp -o ans
 ```
 
-### 4. Run the Program - According to no of threads wnats to run
+### 4. Run the Program - According to no of threads wants to run 
 
 ```bash
 ./ans ASIA 1995-01-01 1996-01-01 1 ./tbl_data/ result1.txt
@@ -110,7 +110,7 @@ g++ -std=c++17 -O2 -pthread main/index.cpp main/cliconfig_parser.cpp main/data_l
 
 
 
-##  Output Format - (result1.txt/ result4.txt)
+##  Output Format - (result1.txt/ result4.txt / result8.txt)
 
 The result (written to `result1.txt`) lists nations and their corresponding revenue in descending order: 1 thread
 
@@ -210,6 +210,8 @@ CPU-bound tasks such as joining and aggregating data This dual optimization impr
 * [TPC-H Benchmark Specification](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
 * Query 5: *Local Supplier Volume*
 
+
+Designed and implemented by Sweety
 
 
 
