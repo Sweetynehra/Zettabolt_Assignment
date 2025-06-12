@@ -102,7 +102,7 @@ g++ -std=c++17 -O2 -pthread main/index.cpp main/cliconfig_parser.cpp main/data_l
 
 ### Example CLI Flags
 
-* `--data` : Path to folder containing `.tbl` files
+* `--tbl_data` : Path to folder containing `.tbl` files
 * `--output` : Output file path
 * `--region` : Name of region to filter (e.g., `EUROPE`)
 * `--start` / `--end` : Order date range (inclusive start, exclusive end)
@@ -186,13 +186,13 @@ Final results are sorted and written to output.txt.
 
 
 ##  Generating a Performance Report
-* Follow these steps to create a meaningful performance comparison report:
+Follow these steps to create a meaningful performance comparison report:
 
-Execute the Program Launch the application using your selected parameters (e.g., region, date range, thread count).
+* Execute the Program Launch the application using your selected parameters (e.g., region, date range, thread count).
 
-Capture the Output The results, including total revenue and execution time, will be saved to your specified output path.
+* Capture the Output The results, including total revenue and execution time, will be saved to your specified output path.
 
-Analyze and Compare Review the output to assess how performance scales between single-threaded and multi-threaded executions. Highlight speed gains and identify any bottlenecks.
+* Analyze and Compare Review the output to assess how performance scales between single-threaded and multi-threaded executions. Highlight speed gains and identify any bottlenecks.
 
 ## How Multithreading Boosts Performance
 Here's the observed speedup when leveraging multithreading:
