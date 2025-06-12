@@ -195,7 +195,7 @@ Capture the Output The results, including total revenue and execution time, will
 Analyze and Compare Review the output to assess how performance scales between single-threaded and multi-threaded executions. Highlight speed gains and identify any bottlenecks.
 
 ## How Multithreading Boosts Performance
-Here's the rationale behind the observed speedup when leveraging multithreading:
+Here's the observed speedup when leveraging multithreading:
 
 Parallel Workload Distribution Tasks are split across multiple threads, allowing simultaneous execution and significantly reducing total processing time.
 
