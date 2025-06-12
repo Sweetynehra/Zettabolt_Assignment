@@ -35,7 +35,7 @@ project_tpch/
 │   └── index.cpp              # Main logic (query processing, threading, output)
 │
 ├── tbl_data/                  # Contains .tbl files (from dbgen)
-├── result.txt                 # Output result file
+├── result1.txt                 # Output result file
 └── README.md                  # Project documentation
 ```
 
