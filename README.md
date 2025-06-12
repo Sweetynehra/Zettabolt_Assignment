@@ -12,9 +12,9 @@ This project is a multithreaded C++ implementation of **TPC-H Query 5: "Local Su
 *  **Sorted Output**: Returns revenue per nation, sorted in descending order.
 *  **Raw TPC-H `.tbl` File Support**.
 
----
 
-## 📁 Folder Structure
+
+## Folder Structure
 
 ```
 project_tpch/
@@ -33,17 +33,17 @@ project_tpch/
 └── README.md                  # Project documentation
 ```
 
----
 
-## ⚙️ Requirements
+
+##  Requirements
 
 * C++17 or later
 * `make` or any modern C++ build system
 * `.tbl` data files generated using the [TPC-H dbgen tool](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
 
----
 
-## 🚀 Build & Run Instructions
+
+##  Build & Run Instructions
 
 ### 1. Clone the Repository
 
@@ -89,9 +89,9 @@ g++ -std=c++17 main/index.cpp main/data_loader.cpp main/cliconfig_parser.cpp -o 
 * `--start` / `--end` : Order date range (inclusive start, exclusive end)
 * `--threads` : Number of threads to use
 
----
 
-## 📄 Output Format
+
+##  Output Format
 
 The result (written to `result.txt`) lists nations and their corresponding revenue in descending order:
 
@@ -102,16 +102,16 @@ FRANCE: 16344123.87
 ...
 ```
 
----
 
-## 📚 References
+
+##  References
 
 * [TPC-H Benchmark Specification](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
 * Query 5: *Local Supplier Volume*
 
----
 
-## 🛠 Future Improvements
+
+##  Future Improvements
 
 * Add support for other TPC-H queries
 * Include benchmark graphs for different thread counts
