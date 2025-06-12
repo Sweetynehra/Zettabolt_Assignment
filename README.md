@@ -12,8 +12,14 @@ This project is a multithreaded C++ implementation of **TPC-H Query 5: "Local Su
 *  **Sorted Output**: Returns revenue per nation, sorted in descending order.
 *  **Raw TPC-H `.tbl` File Support**.
 
+##  Requirements
+
+* C++17 or later
+* `make` or any modern C++ build system
+* `.tbl` data files generated using the [TPC-H dbgen tool](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
 
 
+  
 ## Folder Structure
 
 ```
@@ -35,26 +41,43 @@ project_tpch/
 
 
 
-##  Requirements
-
-* C++17 or later
-* `make` or any modern C++ build system
-* `.tbl` data files generated using the [TPC-H dbgen tool](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
-
-
 
 ##  Build & Run Instructions
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/project_tpch.git
-cd project_tpch
+git clone https://github.com/Sweetynehra/Zettabolt_Assignment.git
+cd Zettabolt_Assignment
 ```
 
-### 2. Generate `.tbl` Files (Using `dbgen`)
+### 2. Generate TPC-H Data Using `dbgen` (Optional if you already have .tbl files )
+* Download and compile dbgen tool from the TPC-H benchmark.
 
-If you haven’t already, generate `.tbl` files using TPC-H's `dbgen` and place them in `tbl_data/`.
+1.Go to the official TPC-H GitHub repository- https://github.com/electrum/tpch-dbgen
+
+2.Clone the repository:
+
+```bash
+git clone https://github.com/electrum/tpch-dbgen.git
+cd tpch-dbgen
+```
+
+3.The DBGEN tool is written in C, so you need to compile it.
+```bash
+make
+```
+4.This creates an executable called dbgen.
+
+* Generate data:
+```bash
+./dbgen -s 1     # Generate SF2 (scale factor 2) dataset
+```
+
+* Move all .tbl files to the ./tbl_data/ directory of your project.
+
+
+* If you haven’t already, generate `.tbl` files using TPC-H's `dbgen` and place them in `tbl_data/`.
 
 ```bash
 mkdir tbl_data
@@ -66,19 +89,15 @@ mkdir tbl_data
 You can use `g++` or a `Makefile`. Example:
 
 ```bash
-g++ -std=c++17 main/index.cpp main/data_loader.cpp main/cliconfig_parser.cpp -o tpch_query
+g++ -std=c++17 -O2 -pthread main/index.cpp main/cliconfig_parser.cpp main/data_loader.cpp -o ans
 ```
 
-### 4. Run the Program
+### 4. Run the Program - According to no of threads wnats to run
 
 ```bash
-./tpch_query \
-  --data ./tbl_data/ \
-  --output result.txt \
-  --region EUROPE \
-  --start 1995-01-01 \
-  --end 1996-01-01 \
-  --threads 4
+./ans ASIA 1995-01-01 1996-01-01 1 ./tbl_data/ result1.txt
+./ans ASIA 1995-01-01 1996-01-01 4 ./tbl_data/ result4.txt
+./ans ASIA 1995-01-01 1996-01-01 8 ./tbl_data/ result8.txt
 ```
 
 ### Example CLI Flags
@@ -91,17 +110,99 @@ g++ -std=c++17 main/index.cpp main/data_loader.cpp main/cliconfig_parser.cpp -o 
 
 
 
-##  Output Format
+##  Output Format - (result1.txt/ result4.txt)
 
-The result (written to `result.txt`) lists nations and their corresponding revenue in descending order:
+The result (written to `result1.txt`) lists nations and their corresponding revenue in descending order: 1 thread
 
 ```
-Final Revenue by Nations:
-GERMANY: 17489230.12
-FRANCE: 16344123.87
-...
+Data loaded. Launching computation...
+
+Results final revenue by nations:
+JAPAN: 2.72367e+06
+INDONESIA: 2.57635e+06
+INDIA: 2.43231e+06
+CHINA: 2.11169e+06
+VIETNAM: 1.74447e+06
+
+Time taken: 0.0606573 seconds
+
 ```
 
+The result (written to `result4.txt`) lists nations and their corresponding revenue in descending order: 4 threads
+
+```
+Data loaded. Launching computation...
+
+Results final revenue by nations:
+JAPAN: 2.72367e+06
+INDONESIA: 2.57635e+06
+INDIA: 2.43231e+06
+CHINA: 2.11169e+06
+VIETNAM: 1.74447e+06
+
+Time taken: 0.0219189 seconds
+
+```
+
+The result (written to `result8.txt`) lists nations and their corresponding revenue in descending order:  8 threads
+
+```
+Data loaded. Launching computation...
+
+Results:
+JAPAN: 2.72367e+06
+INDONESIA: 2.57635e+06
+INDIA: 2.43231e+06
+CHINA: 2.11169e+06
+VIETNAM: 1.74447e+06
+
+Time taken: 0.0114954 seconds
+
+
+```
+
+
+##  How It Works - Step-by-Step
+
+### Step 1: Data Preparation
+Use dbgen to generate .tbl files for tables: region, nation, customer, supplier, orders, lineitem.
+### Step 2: Read Data
+Custom parsers read each .tbl file and convert rows into struct vectors.
+### Step 3: CLI Interface
+User provides region, date range, thread count, paths.
+Parameters are parsed using cli_parser.cpp.
+### Step 4: Multithreaded Processing
+Orders are divided among N threads.
+
+* Each thread:
+
+Filters orders by date range and region
+Joins with customer, nation, supplier
+Calculates local revenue
+
+### Step 5: Aggregate & Output
+Mutex protects shared revenue map.
+Final results are sorted and written to output.txt.
+
+
+##  Generating a Performance Report
+* Follow these steps to create a meaningful performance comparison report:
+
+Execute the Program Launch the application using your selected parameters (e.g., region, date range, thread count).
+
+Capture the Output The results, including total revenue and execution time, will be saved to your specified output path.
+
+Analyze and Compare Review the output to assess how performance scales between single-threaded and multi-threaded executions. Highlight speed gains and identify any bottlenecks.
+
+## How Multithreading Boosts Performance
+Here's the rationale behind the observed speedup when leveraging multithreading:
+
+Parallel Workload Distribution Tasks are split across multiple threads, allowing simultaneous execution and significantly reducing total processing time.
+
+Task Efficiency Multithreading accelerates:
+
+I/O-bound tasks like reading large .tbl files
+CPU-bound tasks such as joining and aggregating data This dual optimization improves overall throughput.
 
 
 ##  References
@@ -109,13 +210,6 @@ FRANCE: 16344123.87
 * [TPC-H Benchmark Specification](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v3.0.1.pdf)
 * Query 5: *Local Supplier Volume*
 
-
-
-##  Future Improvements
-
-* Add support for other TPC-H queries
-* Include benchmark graphs for different thread counts
-* JSON/CSV output option
 
 
 
