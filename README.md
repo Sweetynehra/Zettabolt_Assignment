@@ -71,7 +71,7 @@ make
 
 * Generate data:
 ```bash
-./dbgen -s 1     # Generate SF2 (scale factor 2) dataset
+./dbgen -s 2     # Generate SF2 (scale factor 2) dataset
 ```
 
 * Move all .tbl files to the ./tbl_data/ directory of your project.
