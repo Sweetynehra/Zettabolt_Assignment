@@ -1,0 +1,10 @@
+Data loaded. Launching computation...
+
+Results final revenue by nations:
+JAPAN: 2.72367e+06
+INDONESIA: 2.57635e+06
+INDIA: 2.43231e+06
+CHINA: 2.11169e+06
+VIETNAM: 1.74447e+06
+
+Time taken: 0.0219189 seconds
